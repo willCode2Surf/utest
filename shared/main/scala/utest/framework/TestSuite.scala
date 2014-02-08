@@ -125,9 +125,10 @@ object TestSuite{
         """)
 
       case None =>
-        c.Expr[util.Tree[Test]](q"""$suite(this.getClass.getName.split('.').last, $testTree)""")
+        c.Expr[util.Tree[Test]](q"""
+          $suite(this.getClass.getName.split('.').last, $testTree)" +
+        """)
     }
-
   }
 }
 

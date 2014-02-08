@@ -23,31 +23,30 @@ object TraceLogger{
 
     object tracingTransformer extends Transformer {
       override def transform(tree: Tree): Tree = {
-
         tree match {
           case i @ Ident(name)
             if i.symbol.pos != NoPosition
             && i.symbol.pos.source == i.pos.source =>
             // only trace identifiers coming from the same file,
             // since those are the ones people probably care about
-            q"""{
-            val $tempName = $tree
-            $loggerName(utest.LoggedValue(
-              ${tree.toString()},
-              ${show(tree.symbol.typeSignature)},
+            val x = q"""{
+              val $tempName = $tree
+              $loggerName(utest.LoggedValue(
+                ${tree.toString()},
+                "",
+                $tempName
+              ))
               $tempName
-            ))
-             $tempName
-          }"""
-          case _ => super.transform(tree)
+            }"""
+            x
+          case _ =>
+            super.transform(tree)
         }
       }
     }
-
     val trees = exprs.map(expr =>
       q"${expr.tree.pos.lineContent.trim} -> ($loggerName => ${tracingTransformer.transform(expr.tree)})"
     )
-
     c.Expr[Unit](c.resetLocalAttrs(q"""$func(..$trees)"""))
   }
 }

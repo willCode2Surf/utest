@@ -6,7 +6,7 @@ organization := "com.lihaoyi.utest"
 
 name := "utest-runner"
 
-scalaVersion := "2.10.3"
+scalaVersion := "2.11.0-M8"
 
 version := "0.1.1"
 

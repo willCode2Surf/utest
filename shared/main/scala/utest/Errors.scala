@@ -28,4 +28,4 @@ case class AssertionError(msg: String,
  * Information about a value that was logged in one of the macro-powered 
  * `assert` functions
  */
-case class LoggedValue(name: String, tpeName: String, value: Any)
+case class  LoggedValue(name: String, tpeName: String, value: Any)
